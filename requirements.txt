@@ -14,5 +14,5 @@ pandas
 python-dotenv
 werkzeug
 clerk-backend-api
-google-generativeai
+google-genai
 psycopg2-binary
