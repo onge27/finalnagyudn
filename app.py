@@ -11,7 +11,7 @@ import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, session, flash, abort, jsonify
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
 
 # Load environment variables
 load_dotenv()
