@@ -1,13 +1,11 @@
-{% extends "base.html" %}
-{% block title %}Teacher Dashboard{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Teacher Dashboard{% endblock %} {% block content %}
 
 <div class="mb-6">
     <h1 class="page-title">Dashboard</h1>
     <p class="page-subtitle">Welcome back, <span class="font-semibold text-maroon-700">{{ session.name }}</span></p>
 </div>
 
-<!-- Quick Actions -->
+<!-- Quick Actions (fixed: removed the broken AI button) -->
 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
     <a href="{{ url_for('create_subject') }}" class="stat-card flex items-center gap-3 hover:border-maroon-500 border border-transparent cursor-pointer group transition-all">
         <div class="w-10 h-10 rounded-xl bg-maroon-100 flex items-center justify-center group-hover:bg-maroon-700 transition-colors flex-shrink-0">
@@ -36,8 +34,7 @@
             <div class="text-xs text-gray-400">Access requests</div>
         </div>
         {% if pending_requests %}
-        <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">{{ pending_requests|length }}</span>
-        {% endif %}
+        <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">{{ pending_requests|length }}</span> {% endif %}
     </a>
     <a href="{{ url_for('upload_students') }}" class="stat-card flex items-center gap-3 hover:border-maroon-500 border border-transparent cursor-pointer group transition-all">
         <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center group-hover:bg-green-600 transition-colors flex-shrink-0">
@@ -59,7 +56,7 @@
     </a>
 </div>
 
-<!-- Pending Access Requests Alert -->
+<!-- Pending Access Requests Alert (unchanged) -->
 {% if pending_requests %}
 <div class="card mb-5" style="border-left:4px solid #f59e0b">
     <div class="card-body py-4">
@@ -77,7 +74,6 @@
                 <i class="fas fa-inbox"></i> Review Requests
             </a>
         </div>
-        <!-- Preview of first 3 -->
         <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {% for req in pending_requests[:3] %}
             <div class="flex items-center justify-between bg-amber-50 rounded-lg px-3 py-2 gap-2">
@@ -135,6 +131,7 @@
                             <td>
                                 <div class="flex items-center gap-1.5 flex-wrap">
                                     <a href="{{ url_for('add_questions', exam_id=exam.id) }}" class="btn btn-sm" style="background:#f0f4ff;color:#3730a3;font-size:.72rem;padding:4px 9px"><i class="fas fa-list-check"></i> Questions</a>
+                                    <!-- Correct AI button with exam_id -->
                                     <a href="{{ url_for('auto_generate_questions', exam_id=exam.id) }}" class="btn btn-sm btn-gold" style="font-size:.72rem;padding:4px 9px"><i class="fas fa-robot"></i> AI</a>
                                     <a href="{{ url_for('exam_keys', exam_id=exam.id) }}" class="btn btn-sm" style="background:#f0fdf4;color:#15803d;font-size:.72rem;padding:4px 9px"><i class="fas fa-key"></i> Keys</a>
                                 </div>
@@ -154,10 +151,8 @@
         </div>
     </div>
 
-    <!-- Right column -->
+    <!-- Right column (unchanged) -->
     <div class="flex flex-col gap-5">
-
-        <!-- Pending Verifications -->
         <div class="card flex-1">
             <div class="card-header">
                 <div>
@@ -165,8 +160,7 @@
                     <p class="text-xs text-gray-400 mt-0.5">Students awaiting approval</p>
                 </div>
                 {% if pending_verifications %}
-                <span class="badge badge-yellow"><i class="fas fa-clock text-xs"></i> {{ pending_verifications|length }}</span>
-                {% endif %}
+                <span class="badge badge-yellow"><i class="fas fa-clock text-xs"></i> {{ pending_verifications|length }}</span> {% endif %}
             </div>
             <div class="card-body p-0">
                 {% if pending_verifications %}
@@ -193,7 +187,6 @@
             </div>
         </div>
 
-        <!-- Subjects summary -->
         <div class="card">
             <div class="card-header">
                 <div>

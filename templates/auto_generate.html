@@ -1,75 +1,63 @@
-{% extends "base.html" %} {% block title %}AI Question Generator{% endblock %} {% block content %}
-<div class="max-w-xl">
+{% extends "base.html" %} {% block title %}Auto-Generate Questions{% endblock %} {% block content %}
+<div class="max-w-xl mx-auto py-6">
     <div class="mb-5">
-        <a href="{{ url_for('add_questions', exam_id=exam.id) }}" class="text-sm text-gray-500 hover:text-maroon-700 transition-colors"><i class="fas fa-arrow-left mr-1.5"></i>Back to Questions</a>
-    </div>
-    <div class="mb-5">
-        <h1 class="page-title">AI Question Generator</h1>
-        <p class="page-subtitle">Generate multiple-choice questions automatically using Gemini AI</p>
+        <a href="{{ url_for('teacher_dashboard') }}" class="text-sm text-gray-500 hover:text-maroon-700 transition-colors">
+            <i class="fas fa-arrow-left mr-1.5"></i>Back to Dashboard
+        </a>
     </div>
 
-    <!-- Exam info card -->
-    <div class="flex items-center gap-3 p-4 rounded-xl bg-maroon-50 border border-maroon-100 mb-5">
-        <div class="w-10 h-10 bg-maroon-700 rounded-xl flex items-center justify-center flex-shrink-0">
-            <i class="fas fa-file-pen text-white text-sm"></i>
-        </div>
-        <div>
-            <div class="font-semibold text-gray-900 text-sm">{{ exam.title }}</div>
-            <div class="text-xs text-gray-500">Generating questions for this exam</div>
-        </div>
+    <div class="mb-5">
+        <h1 class="page-title">🤖 Auto-Generate Questions</h1>
+        <p class="page-subtitle">Use AI to generate multiple-choice questions for your exam</p>
     </div>
 
     <div class="card">
         <div class="card-body">
-            <form method="POST" id="genForm">
+            <form method="POST">
+
+                <!-- Hidden exam_id if coming from Create Exam -->
+                {% if exam_id %}
+                <input type="hidden" name="exam_id" value="{{ exam_id }}"> {% endif %}
+
                 <div class="mb-4">
-                    <label class="form-label" for="topic">Topic or Subject Matter</label>
+                    <label class="form-label" for="topic">Topic / Subject</label>
                     <div class="relative">
-                        <span class="absolute left-3 top-3.5 text-gray-400"><i class="fas fa-lightbulb text-sm"></i></span>
-                        <input type="text" id="topic" name="topic" class="form-input pl-9" placeholder="e.g. World War II, Python Loops, Cell Biology" required>
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-lightbulb text-sm"></i>
+                        </span>
+                        <input type="text" id="topic" name="topic" class="form-input pl-9" placeholder="e.g. Philippine History, Python Loops" required>
                     </div>
-                    <p class="text-xs text-gray-400 mt-1">Be specific for better results — e.g. "Object-Oriented Programming in Python"</p>
                 </div>
+
                 <div class="mb-5">
-                    <label class="form-label" for="num_questions">Number of Questions</label>
+                    <label class="form-label" for="num_questions">Number of Questions (1–20)</label>
                     <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fas fa-list-ol text-sm"></i></span>
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-list-ol text-sm"></i>
+                        </span>
                         <input type="number" id="num_questions" name="num_questions" class="form-input pl-9" min="1" max="20" value="5" required>
                     </div>
-                    <p class="text-xs text-gray-400 mt-1">Choose between 1 and 20 questions.</p>
                 </div>
 
-                <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-5">
-                    <div class="flex gap-3">
-                        <i class="fas fa-circle-info text-blue-400 mt-0.5 flex-shrink-0"></i>
-                        <div class="text-sm text-blue-700">
-                            <p class="font-semibold mb-1">How it works</p>
-                            <ul class="space-y-0.5 text-xs text-blue-600 list-disc list-inside">
-                                <li>Gemini AI generates questions based on your topic</li>
-                                <li>Each question has 4 options (A, B, C, D) with one correct answer</li>
-                                <li>Questions are automatically saved to this exam</li>
-                                <li>Review and edit them in the questions manager</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <button type="submit" class="btn btn-primary w-full">
+                    <i class="fas fa-wand-magic-sparkles mr-1.5"></i> Generate Questions
+                </button>
 
-                <div class="flex gap-3">
-                    <button type="submit" id="genBtn" class="btn btn-gold flex-1 justify-center">
-                        <i class="fas fa-robot"></i> Generate &amp; Save Questions
-                    </button>
-                    <a href="{{ url_for('add_questions', exam_id=exam.id) }}" class="btn btn-secondary">Cancel</a>
-                </div>
             </form>
         </div>
     </div>
+
+    <!-- Show result if not saving to exam -->
+    {% if result %}
+    <div class="card mt-5">
+        <div class="card-body">
+            <h2 class="text-base font-semibold text-gray-700 mb-3">
+                <i class="fas fa-check-circle text-green-500 mr-1.5"></i>Generated Questions
+            </h2>
+            <pre class="whitespace-pre-wrap text-sm text-gray-700 bg-gray-50 rounded-lg p-4 border border-gray-200">{{ result }}</pre>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
-{% endblock %} {% block extra_scripts %}
-<script>
-    document.getElementById('genForm').addEventListener('submit', function() {
-        const btn = document.getElementById('genBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating... Please wait';
-    });
-</script>
 {% endblock %}

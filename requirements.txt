@@ -1,18 +1,17 @@
-Flask
-bcrypt
-pandas
-openpyxl
-gunicorn
-python-dotenv
-anthropic
-anthropic
-bcrypt
-Flask
-gunicorn
-openpyxl
-pandas
-python-dotenv
-werkzeug
-clerk-backend-api
-google-genai
-psycopg2-binary
+# Core
+flask>=2.3.0
+python-dotenv>=1.0.0
+
+# AI – Groq
+groq>=0.9.0
+
+# Database
+bcrypt>=4.0.0
+psycopg2-binary>=2.9.0   # Only needed if using PostgreSQL (optional)
+
+# File upload & data handling
+pandas>=2.0.0
+openpyxl>=3.1.0          # For reading Excel files
+
+# Additional (flask dependencies are covered)
+Werkzeug>=2.3.0
